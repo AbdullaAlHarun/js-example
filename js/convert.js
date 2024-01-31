@@ -14,3 +14,5 @@ for (var i = 0; i < words.length; i++){
 var converted = words.join(" ")
 
 console.log(converted);
+
+//outpit: Convert String To Title Case
