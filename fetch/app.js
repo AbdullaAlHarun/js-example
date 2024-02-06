@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function(){
     let products = document.querySelector('.products');
+    
     async function fetchProduct(url) {
         let data = await fetch(url);
         let response = await data.json();
