@@ -1,4 +1,3 @@
-//::::::::: Task -1 ::::::::::: // 
 
 function calculateMoney(ticketSale) {
     if (ticketSale < 0) {
@@ -16,5 +15,3 @@ function calculateMoney(ticketSale) {
 
     return restOfMoney;
 }
-
-console.log(calculateMoney(-10));
