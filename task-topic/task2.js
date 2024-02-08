@@ -3,12 +3,13 @@ function checkName(name) {
         return "invalid";
     }
 
-    const lastCharacter = name.trim().charAt(name.length - 1).toLowerCase();
-    const lastGoodLetter = ['a', 'e', 'i', 'o', 'u', 'y', 'w'];
+    const lastLetter = name.trim().slice(-1).toLowerCase();
+    const lastGoodLetter = ['a', 'y', 'i', 'e', 'o', 'u', 'w'];
 
-    if (lastGoodLetter.includes(lastCharacter)) {
+    if (lastGoodLetter.includes(lastLetter)) {
         return "Good Name";
     } else {
         return "Bad Name";
     }
 }
+

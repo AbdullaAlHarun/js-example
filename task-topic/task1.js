@@ -1,4 +1,3 @@
-
 function calculateMoney(ticketSale) {
     if (ticketSale < 0) {
         return 'Please provide a positive number of tickets sold.';

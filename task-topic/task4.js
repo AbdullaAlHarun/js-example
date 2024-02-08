@@ -1,14 +1,13 @@
-function password(obj) {
- 
-    if (!obj.hasOwnProperty('name') || !obj.hasOwnProperty('birthYear') || !obj.hasOwnProperty('siteName')) {
-        return "Invalid input!";
+function password(myObject) {
+    if (typeof myObject.name !== 'string' || typeof myObject.birthYear !== 'number' || typeof myObject.siteName !== 'string') {
+        return 'invalid';
     }
 
-    if (obj.birthYear.toString().length < 4) {
-        return "Invalid input!";
+    if (myObject.birthYear.toString().length < 4) {
+        return 'invalid';
     }
-   
-    const { name, birthYear, siteName } = obj;
+
+    const { name, birthYear, siteName } = myObject;
 
     const finalPassword = siteName.charAt(0).toUpperCase() 
                             + siteName.slice(1).toLowerCase() 
