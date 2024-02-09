@@ -1,5 +1,4 @@
-const allHeading = document.getElementsByTagName('h1');
-// console.log(bodyElement.);
+const allHeading = document.getElementsByTagName('h1')// console.log(bodyElement.);
 
 for (const h1 of allHeading) {
 
@@ -18,4 +17,11 @@ for (const li of liCollection) {
 //  console.log(fruitTitle)
 
 const fruitTitle = document.querySelector('#fruits-title')
-console.log(fruitTitle);
+
+fruitTitle.getAttribute('class');
+console.log(fruitTitle)
+
+document.getElementById('Places').style.color='green';
+
+const fullList = document.getElementsByClassName('fruits-container')[0].innerHTML
+console.log(fullList);
