@@ -13,7 +13,9 @@ for (const li of liCollection) {
     // console.log(li.innerText);
 }
 
-const fruitTitle =  document.getElementById('fruits-title');
- fruitTitle.innerText = 'Fruits change by JS'
- console.log(fruitTitle)
+// const fruitTitle =  document.getElementById('fruits-title');
+//  fruitTitle.innerText = 'Fruits change by JS'
+//  console.log(fruitTitle)
 
+const fruitTitle = document.querySelector('#fruits-title')
+console.log(fruitTitle);
