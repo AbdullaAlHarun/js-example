@@ -27,3 +27,18 @@ ul.appendChild(li3);
 section.appendChild(ul);
 
 mainContainer.appendChild(section);
+
+// set innerHTML Directly 
+
+
+const sectinDress = document.createElement('section');
+sectinDress.innerHTML = `
+ <h1> My Dress Section </h1> 
+ <ul> 
+    <li>Shairt </li>
+    <li>Pant </li>
+    <li>Panjabi </li>
+ </ul>
+`
+
+mainContainer.appendChild(sectinDress);
