@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delect Name</title>
+</head>
+<body>
+    <h1 id="delect-text">Delect name from website! </h1>
+    <input type="text" id="delect-confirm" placeholder="please type delect">
+    <button id="delect-btn" disabled>Delect</button>
+
+    <script>
+        document.getElementById('delect-confirm').addEventListener('keyup',function(event){
+            const text = event.target.value;
+            const delectButton = document.getElementById('delect-btn');
+
+            if (text === 'delect'){
+                delectButton.removeAttribute('disabled');
+            } else {
+                delectButton.setAttribute('disabled', true);
+            }
+        })
+
+        document.getElementById('delect-btn').addEventListener('click', function(){
+         const delectText =  document.getElementById('delect-text');
+         delectText.style.display = 'none';
+        })
+    </script>
+</body>
+</html>
