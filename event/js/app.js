@@ -2,7 +2,7 @@
 //    <button onclick="console.log(4)">click me</button>
 //  <!-- <button onclick="document.body.style.backgroundColor='red'" >Hey Hey</button> -->
 
-//option: 2 
+//option: 2  we will use 
 function makeRed(){
     document.body.style.backgroundColor = 'red';
 }
@@ -33,8 +33,7 @@ makeGreenButton.addEventListener('click', function makeGreen(){
     document.body.style.backgroundColor = 'green';
 })
 
-//option 5 final 
-
+//option 5 final  important we will use! 
 document.getElementById('make-goldenrod').addEventListener('click', function(){
     document.body.style.backgroundColor = 'goldenrod';
 })
