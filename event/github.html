@@ -11,14 +11,14 @@
     <button id="btn-delect" disabled>Delect</button>
 </body>
 <script>
-    document.getElementById("delect-confirm").addEventListener('keyup', function(event){
+    document.getElementById('delect-confirm').addEventListener('keyup', function(event){
         const text = event.target.value; 
         const delectButton = document.getElementById('btn-delect')
 
         if (text === 'delect'){
-            delectButton.removeAttribute('disable');
+            delectButton.removeAttribute('disabled');
         } else {
-            delectButton.setAttribute('disable', true);
+            delectButton.setAttribute('disabled', true);
         }
 
     })
