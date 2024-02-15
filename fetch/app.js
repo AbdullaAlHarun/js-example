@@ -19,9 +19,14 @@ const mainDocuments = document.addEventListener('DOMContentLoaded', function(){
             });
         });
 
-       
+        // Add event listener to "Show All" link
+        document.querySelector('.catagory ul li a').addEventListener('click', function(e) {
+            e.preventDefault();
+            displayProducts(response);
+        });
     };
 
+    // Display all movies from API in home page! 
     function displayProducts(productsArray) {
         products.innerHTML = '';
         for (let i = 0; i < productsArray.length; i++) {
