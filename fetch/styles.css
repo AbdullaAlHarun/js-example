@@ -4,11 +4,12 @@
 }
 
 .container {
-    margin: 0 7%;
+    margin: 50px 7%;
     padding: 0 2rem;
 }
 
 .products { 
+    margin-top: 30px;
     display: grid; 
     grid-template-columns: repeat(auto-fit, minmax(20rem,1fr));
     gap: 1rem;
@@ -69,8 +70,7 @@
 .catagory {
     display: flex;
     align-items: center;
-    justify-content: center;
-   
+    justify-content: center;  
 }
 
 .catagory ul{
