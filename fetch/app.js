@@ -9,7 +9,17 @@ const mainDocuments = document.addEventListener('DOMContentLoaded', function(){
 
         displayProducts(response);
         
-      
+        // Add event listeners to genre links
+        genreLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                let genre = this.textContent.toLowerCase();
+                let filteredMovies = response.filter(movie => movie.genre.toLowerCase() === genre);
+                displayProducts(filteredMovies);
+            });
+        });
+
+       
     };
 
     function displayProducts(productsArray) {
