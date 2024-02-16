@@ -2,7 +2,12 @@
     box-sizing: border-box;
     margin:0; padding: 0;
 }
-
+nav { 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+nav,
 .container {
     margin: 50px 7%;
     padding: 0 2rem;

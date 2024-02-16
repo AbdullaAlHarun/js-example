@@ -1,7 +1,8 @@
-const mainDocuments = document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function(){
     fetchProduct('https://api.noroff.dev/api/v1/square-eyes');
     let products = document.querySelector('.products');
-    let genreLinks = document.querySelectorAll('.catagory ul li a');
+    let basketCount = document.getElementById('basket-count');
+    let basket = JSON.parse(localStorage.getItem('basket')) || [];
 
     async function fetchProduct(url) {
         let data = await fetch(url);
@@ -9,9 +10,9 @@ const mainDocuments = document.addEventListener('DOMContentLoaded', function(){
 
         displayProducts(response);
         
-        // Add event listeners to genre links // fetch
-        genreLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
+        // Add event listeners to genre links
+        document.querySelectorAll('.catagory ul li a').forEach(link => {
+            link.addEventListener('click', async function(e) {
                 e.preventDefault();
                 let genre = this.textContent.toLowerCase();
                 let filteredMovies = response.filter(movie => movie.genre.toLowerCase() === genre);
@@ -34,7 +35,7 @@ const mainDocuments = document.addEventListener('DOMContentLoaded', function(){
             products.innerHTML += `
                 <div class="product">
                     <a href="movie.html?id=${productsArray[i].id}" class="movie-link">
-                    <img src="${productsArray[i].image}" alt="" class="product-img">
+                        <img src="${productsArray[i].image}" alt="" class="product-img">
                     </a>
                     <div class="product-content">
                         <h2 class="product-title">${productsArray[i].title}</h2>
@@ -42,11 +43,43 @@ const mainDocuments = document.addEventListener('DOMContentLoaded', function(){
                         <p class="product-description">${description.length > 80 ? description.substring(0,80).concat('...more') : description}</p>
                         <div class="product-price-container">
                             <h3 class="product-price">$${productsArray[i].price}</h3>
-                            <a href="#!"  data-productId="${productsArray[i].id}" class="add-to-cart">Add To Cart</a>
+                            <a href="#!" data-productId="${productsArray[i].id}" class="add-to-cart">Add To Cart</a>
                         </div>
                     </div>
                 </div>
             `;
+        }
+    }
+
+    // Update basket count on navbar
+    function updateBasketCount() {
+        basketCount.textContent = basket.length;
+    }
+    
+    // Call updateBasketCount initially to set the count correctly
+    updateBasketCount();
+
+    // Add event listener to basket icon to navigate to checkout page
+    document.querySelector('.basket-icon').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href = 'checkout.html';
+    });
+
+    // Add event listener to add-to-cart buttons
+    products.addEventListener('click', function(e) {
+        if (e.target.classList.contains('add-to-cart')) {
+            e.preventDefault();
+            let productId = e.target.dataset.productId;
+            addToBasket(productId);
+        }
+    });
+
+    // Function to add item to the basket
+    function addToBasket(productId) {
+        if (!basket.includes(productId)) {
+            basket.push(productId);
+            localStorage.setItem('basket', JSON.stringify(basket));
+            updateBasketCount();
         }
     }
 });
