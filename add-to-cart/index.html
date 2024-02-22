@@ -8,17 +8,14 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <style>
-  
+
 </style>
 
 <body>
      <!-- Navbar with basket icon -->
      <nav>
         <a href="index.html" class="logo">Movie Store</a>
-        <a href="checkout.html" class="basket-icon">
-            <i class="fa-solid fa-cart-shopping"></i>
-            <span id="basket-count">0</span>
-        </a>
+        <button onclick="goToCheckout()"><a href="checkout.html">Go to Checkout</a><span id="selectedItemCount"></span></button>
     </nav>
     <div class="container">
         <div class="catagory">
