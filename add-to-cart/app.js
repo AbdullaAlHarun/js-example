@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function(){
                         <p class="product-description">${description.length > 80 ? description.substring(0,80).concat('...more') : description}</p>
                         <div class="product-price-container">
                             <h3 class="product-price">$${productsArray[i].price}</h3>
-                            <a href="#!" data-productId="${productsArray[i].id}" class="add-to-cart">Add To Cart</a>
+                            <button class="add-to-cart" onclick="addToCart('${productsArray[i].title}', ${productsArray[i].price})">Add to Cart</button>
                         </div>
                     </div>
                 </div>
@@ -51,35 +51,22 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     }
 
-    // Update basket count on navbar
-    function updateBasketCount() {
-        basketCount.textContent = basket.length;
-    }
-    
-    // Call updateBasketCount initially to set the count correctly
-    updateBasketCount();
-
-    // Add event listener to basket icon to navigate to checkout page
-    document.querySelector('.basket-icon').addEventListener('click', function(e) {
-        e.preventDefault();
-        window.location.href = 'checkout.html';
-    });
-
-    // Add event listener to add-to-cart buttons
-    products.addEventListener('click', function(e) {
-        if (e.target.classList.contains('add-to-cart')) {
-            e.preventDefault();
-            let productId = e.target.dataset.productId;
-            addToBasket(productId);
-        }
-    });
-
-    // Function to add item to the basket
-    function addToBasket(productId) {
-        if (!basket.includes(productId)) {
-            basket.push(productId);
-            localStorage.setItem('basket', JSON.stringify(basket));
-            updateBasketCount();
-        }
-    }
+    // Function to add a product to the basket
+    function addToCart(name, price) {
+        const item = { name, price };
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart.push(item);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateSelectedItemCount();
+      }
+  
+      // Function to update selected item count
+      function updateSelectedItemCount() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const selectedItemCountSpan = document.getElementById('selectedItemCount');
+        selectedItemCountSpan.textContent = ` (${cart.length})`;
+      }
+   
+    // Fetch and display products when the page loads
+    fetchAndDisplayProducts('https://api.noroff.dev/api/v1/square-eyes');
 });
