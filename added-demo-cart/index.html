@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Shopping</title>
+</head>
+<body>
+  <h1>Movie Shopping</h1>
+  <div id="movies"></div>
+  <button onclick="goToCheckout()"><a href="checkout.html">Go to Checkout</a><span id="selectedItemCount"></span></button>
+
+  <script>
+    // Function to fetch movie data from API
+    async function fetchMovies() {
+      try {
+        const response = await fetch('https://api.noroff.dev/api/v1/square-eyes');
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error fetching movies:', error);
+      }
+    }
+
+    // Function to display movies on the webpage
+    async function displayMovies() {
+      const moviesContainer = document.getElementById('movies');
+      const movies = await fetchMovies();
+      movies.forEach(movie => {
+        const movieElement = document.createElement('div');
+        movieElement.innerHTML = `
+          <h3>${movie.title}</h3>
+          <p>Price: $${movie.price}</p>
+          <button onclick="addToCart('${movie.title}', ${movie.price})">Add to Cart</button>
+        `;
+        moviesContainer.appendChild(movieElement);
+      });
+    }
+
+    // Function to add a product to the basket
+    function addToCart(name, price) {
+      const item = { name, price };
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push(item);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateSelectedItemCount();
+    }
+
+    // Function to update selected item count
+    function updateSelectedItemCount() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const selectedItemCountSpan = document.getElementById('selectedItemCount');
+      selectedItemCountSpan.textContent = ` (${cart.length})`;
+    }
+
+    // Initialize the page
+    displayMovies();
+  </script>
+</body>
+</html>
