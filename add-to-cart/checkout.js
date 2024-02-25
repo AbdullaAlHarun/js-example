@@ -1,51 +1,32 @@
-document.addEventListener('DOMContentLoaded', function(){
-    // Fetch basket items from local storage
-    let basket = JSON.parse(localStorage.getItem('basket')) || [];
+  // Function to remove a product from the basket
+  function removeFromCart(index) {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.splice(index, 1);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    displayCartSummary();
+  }
 
-    // Fetch details of selected movies from the API
-    async function fetchBasketItems(basket) {
-        try {
-            const basketItemsContainer = document.getElementById('basket-items');
-            let totalPrice = 0;
-
-            // Clear previous content
-            basketItemsContainer.innerHTML = '';
-
-            // Loop through each item in the basket
-            for (let i = 0; i < basket.length; i++) {
-                const productId = basket[i];
-
-                // Fetch details of the item from the API
-                const response = await fetch(`https://api.noroff.dev/api/v1/square-eyes/${productId}`);
-                const movie = await response.json();
-
-                // Check if the response contains a valid movie
-                if (movie && movie.title) {
-                    // Calculate item price
-                    const itemPrice = parseFloat(movie.price);
-                    totalPrice += itemPrice;
-
-                    // Create HTML for the basket item
-                    const itemHTML = `
-                        <div class="basket-item">
-                            <h2>${movie.title}</h2>
-                            <p><strong>Price:</strong> $${itemPrice.toFixed(2)}</p>
-                        </div>
-                    `;
-                    basketItemsContainer.innerHTML += itemHTML;
-                } else {
-                    console.error('Invalid movie data received:', movie);
-                }
-            }
-
-            // Display total price
-            const totalPriceContainer = document.getElementById('total-price');
-            totalPriceContainer.textContent = `Total Price: $${totalPrice.toFixed(2)}`;
-        } catch (error) {
-            console.error('Error fetching basket items:', error);
-        }
+  // Function to display cart summary on checkout page
+  function displayCartSummary() {
+    const cartSummaryContainer = document.getElementById('cartSummary');
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cartSummaryContainer.innerHTML = '';
+    if (cart.length === 0) {
+      cartSummaryContainer.innerHTML = '<p>Your cart is empty</p>';
+    } else {
+      const totalPrice = cart.reduce((total, item) => total + item.price, 0);
+      cart.forEach((item, index) => {
+        const cartItemElement = document.createElement('div');
+        cartItemElement.innerHTML = `
+          <p>${item.name} - $${item.price} <button onclick="removeFromCart(${index})">Remove</button></p>
+        `;
+        cartSummaryContainer.appendChild(cartItemElement);
+      });
+      cartSummaryContainer.innerHTML += `<p>Total Price: $${totalPrice}</p>`;
     }
+  }
 
-    // Call fetchBasketItems function to fetch and display selected movies on checkout page
-    fetchBasketItems(basket);
-});
+  // Display cart summary when the page is loaded
+  window.onload = function() {
+    displayCartSummary();
+  };
