@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Allergy Barcode Scanner</title>
+  <script src="https://cdn.jsdelivr.net/npm/quagga/dist/quagga.min.js"></script>
+</head>
+<body>
+  <button id="scan-button">Scan Item</button>
+  <div id="scanner-container" style="display:none;"></div>
+  <div id="product-info"></div>
+
+  <script>
+    const scanButton = document.getElementById('scan-button');
+    const scannerContainer = document.getElementById('scanner-container');
+
+    // Initialize Quagga barcode scanner
+    Quagga.init({
+      inputStream: {
+        name: "Live",
+        type: "LiveStream",
+        target: scannerContainer,
+        constraints: {
+          width: 480,
+          height: 320,
+          facingMode: "environment"
+        },
+        area: {
+          top: "0%",
+          right: "0%",
+          left: "0%",
+          bottom: "0%"
+        },
+      },
+      decoder: {
+        readers: ["ean_reader"]
+      }
+    }, function (err) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      console.log("Initialization finished. Ready to start");
+    });
+
+    // Function to start scanning
+    function startScanner() {
+      Quagga.start();
+      scannerContainer.style.display = 'block';
+    }
+
+    // Function to stop scanning
+    function stopScanner() {
+      Quagga.stop();
+      scannerContainer.style.display = 'none';
+    }
+
+    // Event listener for scan button click
+    scanButton.addEventListener('click', () => {
+      startScanner();
+    });
+
+    // Event listener for barcode detection
+    Quagga.onDetected(function (data) {
+      console.log("Barcode detected and processed", data);
+      // Stop scanning
+      stopScanner();
+      // Fetch product information based on the barcode data
+      fetchProductInfo(data.codeResult.code);
+    });
+
+    // Sample mock API endpoint for fetching product information
+    const mockProductAPI = {
+      getProductInfo: function(barcode) {
+        // Mock product data based on barcode
+        const products = {
+          '0123456789': {
+            name: 'Sample Product',
+            ingredients: ['Wheat flour', 'Sugar', 'Salt', 'Yeast'],
+            allergens: ['Wheat', 'Gluten']
+          },
+          // Add more products as needed
+        };
+
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            if (products[barcode]) {
+              resolve(products[barcode]);
+            } else {
+              reject(new Error('Product not found'));
+            }
+          }, 1000); // Simulate network delay
+        });
+      }
+    };
+
+    // Function to fetch product information based on barcode
+    function fetchProductInfo(barcode) {
+      mockProductAPI.getProductInfo(barcode)
+        .then(product => {
+          // Display product information
+          displayProductInfo(product);
+        })
+        .catch(error => {
+          console.error('Error fetching product information:', error);
+          // Display error message to user
+          document.getElementById('product-info').innerText = 'Product not found';
+        });
+    }
+
+    // Function to display product information
+    function displayProductInfo(product) {
+      const productInfoContainer = document.getElementById('product-info');
+      productInfoContainer.innerHTML = `
+        <h2>${product.name}</h2>
+        <p><strong>Ingredients:</strong> ${product.ingredients.join(', ')}</p>
+        <p><strong>Allergens:</strong> ${product.allergens.join(', ')}</p>
+      `;
+    }
+  </script>
+</body>
+</html>
